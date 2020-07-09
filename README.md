@@ -113,7 +113,7 @@ I have found the use of IP address is more stable.
 ![Image of Power BI Screen](https://github.com/PeteOH/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/PowerBI.png)
 
 
-### Why do I need to clone/fork the entire repo to run the app?
+# Why do I need to clone/fork the entire repo to run the app?
 
 You don't need all the source code to run the application. But the application relies on a folder structure that allows:
 * Zeppelin to store its configuration and log files outside of the containers
