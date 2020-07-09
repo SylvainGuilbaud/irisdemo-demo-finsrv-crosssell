@@ -104,13 +104,13 @@ Included are the Singapore (SG.txt), Malaysia (MY.txt) and Thailand (TH.txt) reg
 - Configure an ODBC System DSN pointing to the SuperPort on the Datalake IRIS instance
 I have found the use of IP address is more stable. 
   
-![Image of ODBC Screen](https://github.com/PeteOH/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/ODBC.png)
+![Image of ODBC Screen](https://github.com/intersystems-community/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/ODBC.png)
 
 - Then open the PowerBI Template from this repository in PowerBI Desktop
 
 - Load the data - **ISSUE** This demo is using Community edition - PowerBI often uses more multiple connections to load/refresh data. Once the Power BI template is up - you will probably see errors during data refresh - right click on each of the field tables on the right and refresh each one manually.
 
-![Image of Power BI Screen](https://github.com/PeteOH/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/PowerBI.png)
+![Image of Power BI Screen](https://github.com/intersystems-community/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/PowerBI.png)
 
 
 # Why do I need to clone/fork the entire repo to run the app?
