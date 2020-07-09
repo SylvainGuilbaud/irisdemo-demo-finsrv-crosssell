@@ -7,7 +7,7 @@
 #
 set -e
 
-DOCKER_REPO=intersystemsdc/irisdemo-demo-fraudprevention
+DOCKER_REPO=intersystemsdc/irisdemo-demo-finsrv-crosssell
 VERSION=`cat ./VERSION`
 
 docker-compose stop
