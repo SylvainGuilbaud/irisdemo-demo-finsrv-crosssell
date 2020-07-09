@@ -1,6 +1,4 @@
-# irisdemo-demo-finsrv-crosssell
-
-## Extension to Fraud Demo - Adding Rewards and Geo Location data
+# Extension to Fraud Demo - Adding Rewards and Geo Location data
 
 This project takes the iris fraud prevention demo and extends it to add:
 - Geo location data added to transactions for Power BI Report 
