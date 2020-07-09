@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e 
+
+echo
+echo "### HOOK - build environment:"
+echo "   SOURCE_BRANCH  : $SOURCE_BRANCH"
+echo "   SOURCE_COMMIT  : $SOURCE_COMMIT"
+echo "   COMMIT_MSG     : $COMMIT_MSG"
+echo "   DOCKER_REPO    : $DOCKER_REPO"
+echo "   DOCKERFILE_PATH: $DOCKERFILE_PATH"
+echo "   DOCKER_TAG     : $DOCKER_TAG"
+echo "   DOCKER_TAG     : $IMAGE_NAME"
+
+echo
+echo "### HOOK - building banking core..."
+docker build -t ${DOCKER_REPO}:bankingcore-${DOCKER_TAG} ./banking_core
+
+echo
+echo "### HOOK - building datalake..."
+docker build -t ${DOCKER_REPO}:datalake-${DOCKER_TAG} ./normalized_datalake
+
+echo
+echo "### HOOK - building banking transactions service..."
+docker build -t ${DOCKER_REPO}:bankingtrnsrv-${DOCKER_TAG} ./banking_trn_srv
+
+echo
+echo "### HOOK - building point of sale (pos)..."
+docker build -t ${DOCKER_REPO}:pos-${DOCKER_TAG} ./pos
+
