@@ -97,7 +97,7 @@ Adds geolocation data for each transaction. Provides the ability to quick ingest
 
 Included are the Singapore (SG.txt), Malaysia (MY.txt) and Thailand (TH.txt) region files. I have added the header to these files for scripting.
 
-#Power BI Setup
+# Power BI Setup
 
 - Install the latest InterSytems IRIS ODBC driver from https://wrc.intersystems.com/wrc/coDistGen.csp
 
