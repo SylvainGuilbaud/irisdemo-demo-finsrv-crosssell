@@ -3,16 +3,22 @@
 <script language="Cache" method="OnPreHTTP" arguments="" returntype="%Boolean">
  	
  	Set tSC = $$$OK
+ 	Set tMessage=""
  	
  	If %request.Get("EmailSenderEmail")=""
  	{
- 		Set tSC = ##class(Ens.Config.Credentials).GetCredentialsObj(.gmailCredential, "Ens.Config.Credentials", "Ens.Config.Credentials", "GMAIL")
- 		Do %request.Set("EmailSenderEmail", gmailCredential.Username)
- 		Do %request.Set("EmailSenderPassword", gmailCredential.Password)
+ 		Do ##class(Ens.Config.Credentials).GetCredentialsObj(.gmailCredential, "Ens.Config.Credentials", "Ens.Config.Credentials", "GMAIL")
+ 		
+ 		If $IsObject(gmailCredential)
+ 		{
+ 			Do %request.Set("EmailSenderEmail", gmailCredential.Username)
+ 			Do %request.Set("EmailSenderPassword", gmailCredential.Password)
+ 		}
  	}
 
  	If %request.IsDefined("btSaveEmail")
  	{
+ 		Set tMessage=tMessage_$C(13,10)_"Configuring e-mail credential..."
  		Set EmailSenderEmail=%request.Get("EmailSenderEmail")
  		Set EmailSenderPassword=%request.Get("EmailSenderPassword")
  		
@@ -34,13 +40,17 @@
 
  	If %request.Get("awsAccessKey")=""
  	{
- 		Set tSC = ##class(Ens.Config.Credentials).GetCredentialsObj(.credential, "Ens.Config.Credentials", "Ens.Config.Credentials", "AWSAccessKeyCredential")
- 		Do %request.Set("awsAccessKey", credential.Username)
- 		Do %request.Set("awsSecretAccessKey", credential.Password)
+ 		Do ##class(Ens.Config.Credentials).GetCredentialsObj(.credential, "Ens.Config.Credentials", "Ens.Config.Credentials", "AWSAccessKeyCredential")
+ 		If $IsObject(credential)
+ 		{
+ 			Do %request.Set("awsAccessKey", credential.Username)
+ 			Do %request.Set("awsSecretAccessKey", credential.Password)
+ 		}
  	}
  	
  	If %request.IsDefined("btSavePhone")
- 	{
+ 	{ 
+ 		Set tMessage=tMessage_$C(13,10)_"Configuring AWS credential..."
  		Set customerPhone=%request.Get("customerPhone")
  		Set awsSecretAccessKey=%request.Get("awsSecretAccessKey")
  		Set awsAccessKey=%request.Get("awsAccessKey")
@@ -58,13 +68,30 @@
 		}
  	}
  	
- 	
+ 	If tMessage'=""
+ 	{
+	 	Set tMessage=tMessage_$C(13,10)_"Stopping production..."
+		Set tSC = ##class(IRISDemo.Production).Stop(5,1)
+		Quit:$System.Status.IsError(tSC)
+		
+		Set tMessage=tMessage_$C(13,10)_"Starting production..."
+		Set tSC = ##class(IRISDemo.Production).Start()
+		Quit:$System.Status.IsError(tSC)
+		
+		Set tMessage=tMessage_$C(13,10)_"Production restarted to use new credential. You can refresh this screen at any time."
+	}
+	
  	If $$$ISERR(tSC)
  	{
  		Set tErrorMsg = $System.Status.GetErrorText(tSC)
  		Do %request.Set("Error", tErrorMsg)
  	}
-     
+    
+    If tMessage'=""
+    {
+    	Do %request.Set("Message", tMessage)
+    }
+    
     Quit 1
 </script>
  
@@ -318,6 +345,18 @@
 		</table>
 		</form>
 		
+		<csp:if condition='%request.IsDefined("Message")'>
+			
+			<center>
+			<font color="green">
+			<pre>
+			#(%request.Get("Message"))#
+			</pre>
+			</font>
+			</center>
+			
+		</csp:if>
+		
 		<csp:if condition='%request.IsDefined("Error")'>
 			
 			<center>
@@ -328,6 +367,8 @@
 			</center>
 			
 		</csp:if>
+		
+		
 		
 		<br>
 		<table width="100%" style="text-align: center; background-color: #b7c8e2;">
