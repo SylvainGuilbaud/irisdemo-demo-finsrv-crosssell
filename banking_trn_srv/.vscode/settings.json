@@ -1,0 +1,17 @@
+
+{
+    "objectscript.conn":
+    {
+        "active": true,
+        "label": "banking_trn_srv",
+        "host": "localhost",
+        "port": 9092,
+        "username": "SuperUser",
+        "password": "sys",
+        "ns": "APPINT",
+        "https": false
+    }
+    
+    "objectscript.export.folder": "mobilebanking-bankingtrnsrv-atelier-project", 
+
+}

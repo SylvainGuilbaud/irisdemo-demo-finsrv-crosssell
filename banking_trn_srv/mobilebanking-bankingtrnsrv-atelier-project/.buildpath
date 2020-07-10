@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <buildpath>
 	<buildpathentry kind="src" path=""/>
-	<buildpathentry kind="con" path="com.intersystems.atelier.core.SERVER_CONTAINER/mobilebanking-bankingtrnsrv/APPINT"/>
+	<buildpathentry kind="con" path="com.intersystems.atelier.core.SERVER_CONTAINER/irisdemo-demo-finsrv-crosssell-banking-trn-srv/APPINT"/>
 </buildpath>

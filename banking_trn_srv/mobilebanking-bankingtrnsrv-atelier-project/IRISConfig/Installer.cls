@@ -39,7 +39,11 @@ ClassMethod CreateCredentials(pNamespace As %String) As %Status
 		Set tSC = ##class(Ens.Config.Credentials).SetCredential("Datalake", "SuperUser", "sys", 1)
 		Quit:$System.Status.IsError(tSC)
 
-		Set pohSC = ##class(Ens.Config.Credentials).SetCredential("GMAIL", "youremail", "yourpasswd", 1)
+		Set tSC = ##class(Ens.Config.Credentials).SetCredential("GMAIL", "youremail", "yourpasswd", 1)
+		Quit:$System.Status.IsError(tSC)
+		
+		Set tSC = ##class(Ens.Config.Credentials).SetCredential("AWSAccessKeyCredential", "AWSAccessKey", "AWSSecretAccessKey", 1)
+		Quit:$System.Status.IsError(tSC)
 		
 		ZN "%SYS"
 

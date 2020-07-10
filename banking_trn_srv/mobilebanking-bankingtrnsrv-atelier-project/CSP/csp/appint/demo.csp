@@ -1,4 +1,74 @@
 <!DOCTYPE html>
+
+<script language="Cache" method="OnPreHTTP" arguments="" returntype="%Boolean">
+ 	
+ 	Set tSC = $$$OK
+ 	
+ 	If %request.Get("EmailSenderEmail")=""
+ 	{
+ 		Set tSC = ##class(Ens.Config.Credentials).GetCredentialsObj(.gmailCredential, "Ens.Config.Credentials", "Ens.Config.Credentials", "GMAIL")
+ 		Do %request.Set("EmailSenderEmail", gmailCredential.Username)
+ 		Do %request.Set("EmailSenderPassword", gmailCredential.Password)
+ 	}
+
+ 	If %request.IsDefined("btSaveEmail")
+ 	{
+ 		Set EmailSenderEmail=%request.Get("EmailSenderEmail")
+ 		Set EmailSenderPassword=%request.Get("EmailSenderPassword")
+ 		
+ 		Try
+ 		{ 			
+ 			Set tSC = ##class(Ens.Config.Credentials).SetCredential("GMAIL", EmailSenderEmail, EmailSenderPassword, 1)
+ 			Quit:$System.Status.IsError(tSC)
+		}
+		Catch (oException)
+		{
+			Set tSC = oException.AsStatus()
+		}
+ 	}
+ 	
+ 	If %request.Get("customerPhone")=""
+ 	{
+ 		Do %request.Set("customerPhone", $Get(^SMSPhoneNumber))
+ 	}
+
+ 	If %request.Get("awsAccessKey")=""
+ 	{
+ 		Set tSC = ##class(Ens.Config.Credentials).GetCredentialsObj(.credential, "Ens.Config.Credentials", "Ens.Config.Credentials", "AWSAccessKeyCredential")
+ 		Do %request.Set("awsAccessKey", credential.Username)
+ 		Do %request.Set("awsSecretAccessKey", credential.Password)
+ 	}
+ 	
+ 	If %request.IsDefined("btSavePhone")
+ 	{
+ 		Set customerPhone=%request.Get("customerPhone")
+ 		Set awsSecretAccessKey=%request.Get("awsSecretAccessKey")
+ 		Set awsAccessKey=%request.Get("awsAccessKey")
+
+ 		Try
+ 		{
+ 			Set tSC = ##class(Ens.Config.Credentials).SetCredential("AWSAccessKeyCredential", awsAccessKey, awsSecretAccessKey, 1)
+			Quit:$System.Status.IsError(tSC)
+			
+			Set ^SMSPhoneNumber=customerPhone
+		}
+		Catch (oException)
+		{
+			Set tSC = oException.AsStatus()
+		}
+ 	}
+ 	
+ 	
+ 	If $$$ISERR(tSC)
+ 	{
+ 		Set tErrorMsg = $System.Status.GetErrorText(tSC)
+ 		Do %request.Set("Error", tErrorMsg)
+ 	}
+     
+    Quit 1
+</script>
+ 
+
 <html>
 	<head>
 
@@ -182,6 +252,13 @@
 			color: #000000;
 			background-color: #FFFFFF;
 		}
+		
+		td.leftFormField
+		{
+			text-align: left; background-color: #eeeeee; padding: 5px;
+		}
+
+		
 		</style>
 	</head>
 
@@ -202,7 +279,57 @@
 		    <area alt="Spark Cluster" href="javascript:openSparkMaster()" coords="1750,550,1880,580" shape="rect">
 		    <area alt="Open Current PMML" title="Open Current PMML" href="javascript:openPMML()" coords="436,700,655,850" shape="rect">
 		</map>
-
+		
+		<form name="contactForm" method="post">
+		<table width="100%" style="text-align: center; border: 0px; border-collapse: collapse;">
+		<tr>
+			<td width="20%">&nbsp;</td>
+			<td class="leftFormField">Your GMail e-Mail:</td>
+			
+			<td class="leftFormField">GMail e-Mail's Password:</td>
+			
+			<td width="5%">&nbsp</td>
+			
+			<td class="leftFormField">Customer's phone:</td>
+			
+			<td class="leftFormField">Your AWS Access Key:</td>
+			
+			<td class="leftFormField">AWS Secret Access Key:</td>
+			
+			<td width="20%">&nbsp;</td>
+			
+		</tr>
+			<td>&nbsp;</td>
+			<td class="leftFormField"><input type="text" name="EmailSenderEmail" size="20" value="#(%request.Get("EmailSenderEmail"))#"></td>
+			
+			<td class="leftFormField"><input type="password" name="EmailSenderPassword" size="20" value="#(%request.Get("EmailSenderPassword"))#">&nbsp;<button name="btSaveEmail">Save</button></td>
+			
+			<td width="5%">&nbsp</td>
+			
+			<td class="leftFormField"><input type="text" name="customerPhone" size="20" value="#(%request.Get("customerPhone"))#"></td>
+			
+			<td class="leftFormField"><input type="text" name="awsAccessKey" size="20" value="#(%request.Get("awsAccessKey"))#"></td>
+			
+			<td class="leftFormField"><input type="password" name="awsSecretAccessKey" size="20" value="#(%request.Get("awsSecretAccessKey"))#">&nbsp;<button name="btSavePhone">Save</button></td>
+			
+			<td>&nbsp;</td>
+		<tr>
+		</tr>
+		</table>
+		</form>
+		
+		<csp:if condition='%request.IsDefined("Error")'>
+			
+			<center>
+			<font color="red">
+			#(%request.Get("Error"))#
+			
+			</font>
+			</center>
+			
+		</csp:if>
+		
+		<br>
 		<table width="100%" style="text-align: center; background-color: #b7c8e2;">
 			<tr>
 				<td><input ID="BTNALL" type="button" class="Button" value="Open All Windows" onclick="openWindows()"/></td>
