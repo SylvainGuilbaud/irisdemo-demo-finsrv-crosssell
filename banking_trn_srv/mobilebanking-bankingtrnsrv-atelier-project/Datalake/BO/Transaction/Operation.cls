@@ -138,12 +138,54 @@ Method FindAccountId(pAccountNumber As %String) As %String
 	$$$ThrowException("DataLakeAccountNumberNotFoundException", "pAccountNumber: "_pAccountNumber)
 }
 
+Method GetTransactionHistory(pRequest As Datalake.BO.Transaction.RewardReq, Output pResponse As Datalake.BO.Transaction.RewardResp) As %Status
+{
+	set tSC = $$$OK
+	
+	Try{
+		$$$TRACE("retreving data using account ID...")
+		Set tSQL = "SELECT count(T.ID) As TransCount, Sum(BC_TRANS_AMOUNT) AS TransAmount"_
+			" FROM IRISDemo.BC_TRANSACTIONS T, IRISDemo.BC_CUST_ACCOUNT A"_
+			" WHERE T.BC_TRANS_SRC_ACC = A.ID"_
+			" AND ISNULL(BC_TRANS_WAS_BLOCKED,0) <> 1"_
+			" AND BC_ACC_NUMBER = '"_pRequest.FromAccountNumber_"'"
+	
+		#dim pRS As EnsLib.SQL.GatewayResultSet
+		
+		$$$TRACE("Executing Query...")
+		$$$TRACE("tSQL="_tSQL)
+
+		Set tSC =  ..Adapter.ExecuteQuery(.pRS, tSQL)
+		Quit:$$$ISERR(tSC)
+	
+		if pRS.Next() {
+			$$$TRACE("tSC OK")
+			$$$TRACE("TransAmount = "_pRS.Get("TransAmount"))
+			$$$TRACE("TransCount = "_pRS.Get("TransCount"))
+		}	
+		
+		set pResponse = ##class(Datalake.BO.Transaction.RewardResp).%New()
+		
+		set pResponse.TransactionAmtLastPeriod = +pRS.Get("TransAmount")
+		set pResponse.TransactionsLastPeriod = +pRS.Get("TransCount")
+	
+	}
+	Catch(oException){
+		set tSC = oException.AsStatus()
+	}
+
+	Quit tSC
+}
+
 
 XData MessageMap {
 <MapItems>
     <MapItem MessageType="Datalake.BO.Transaction.NewTransactionReq">
         <Method>NewTransaction</Method>
     </MapItem>
+    <MapItem MessageType="Datalake.BO.Transaction.RewardReq"> 
+		<Method>GetTransactionHistory</Method>
+	</MapItem>
 </MapItems>
 }
 

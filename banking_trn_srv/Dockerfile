@@ -18,6 +18,6 @@ ADD --chown=irisowner:irisuser ./${IRIS_PROJECT_FOLDER_NAME}/ $IRIS_APP_SOURCEDI
 RUN /usr/irissys/demo/irisdemoinstaller.sh
 
 ADD --chown=irisowner:irisuser ./html/pmml.xml $ISC_PACKAGE_INSTALLDIR/csp/appint/
-ADD --chown=irisowner:irisuser ./html/cross-seel-demo.png $ISC_PACKAGE_INSTALLDIR/csp/appint/
+ADD --chown=irisowner:irisuser ./html/cross-sell-demo.png $ISC_PACKAGE_INSTALLDIR/csp/appint/
 ADD --chown=irisowner:irisuser ./html/image-map-resizer/js/imageMapResizer.min.js $ISC_PACKAGE_INSTALLDIR/csp/appint/
 ADD --chown=irisowner:irisuser ./html/image-map-resizer/js/imageMapResizer.map $ISC_PACKAGE_INSTALLDIR/csp/appint/

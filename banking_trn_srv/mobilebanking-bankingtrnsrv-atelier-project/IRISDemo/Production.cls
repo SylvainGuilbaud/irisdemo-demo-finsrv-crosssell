@@ -74,7 +74,7 @@ Merchant_Feature, IRISDemo.BC_MERCH_ACCOUNT, BC_ACC_NUMBER, BC_MERCH_CODE]]></Se
     <Setting Target="Adapter" Name="SMTPServer">smtp.gmail.com</Setting>
     <Setting Target="Adapter" Name="SSLConfig">GMAIL</Setting>
   </Item>
-  <Item Name="Get Transaction History" Category="Reward" ClassName="Datalake.BO.Transaction.GetTransactionHistory" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="Get Transaction History" Category="Reward" ClassName="Datalake.BO.Transaction.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Host" Name="FailureTimeout">-1</Setting>
     <Setting Target="Adapter" Name="Credentials">Datalake</Setting>
     <Setting Target="Adapter" Name="DSN">jdbc:IRIS://datalake:51773/APP</Setting>

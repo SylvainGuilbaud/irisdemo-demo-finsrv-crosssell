@@ -8,13 +8,14 @@ Parameter INVOCATION = "Queue";
 
 Method SendMsg(pInput As BankingSrv.BO.Email.EmailRequest, Output pOutput As Ens.Response) As %Status
 {
+	#dim oMsg As %Net.MailMessage
+	
 	$$$TRACE("SendMsg to "_pInput.Recipient)
 	
 	If pInput.Recipient = "" {
 		$$$TRACE("No Recipient")
 		Quit $$$OK
-	} 
-	#dim oMsg As %Net.MailMessage
+	}
 	
 	set oMsg = ##class(%Net.MailMessage).%New()
 	do oMsg.To.Insert(pInput.Recipient)
@@ -28,6 +29,8 @@ Method SendMsg(pInput As BankingSrv.BO.Email.EmailRequest, Output pOutput As Ens
 
 Method SendTranCountMsg(pInput As BankingSrv.BO.Email.TranCountEmailReq, Output pOutput As Ens.Response) As %Status
 {
+	#dim oMsg As %Net.MailMessage
+	
 	$$$TRACE("SendMsg to "_pInput.Recipient)
 	set pOutput = ##class(Ens.Response).%New()
 	
@@ -35,7 +38,6 @@ Method SendTranCountMsg(pInput As BankingSrv.BO.Email.TranCountEmailReq, Output 
 		$$$TRACE("No Recipient")
 		Quit $$$OK
 	} 
-	#dim oMsg As %Net.MailMessage
 	
 	set oMsg = ##class(%Net.MailMessage).%New()
 	do oMsg.To.Insert(pInput.Recipient)
