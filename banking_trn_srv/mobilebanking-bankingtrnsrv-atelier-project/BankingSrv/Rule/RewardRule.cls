@@ -9,7 +9,7 @@ XData RuleDefinition [ XMLNamespace = "http://www.intersystems.com/rule" ]
 <ruleDefinition alias="" context="BankingSrv.BP.Transaction.CreditCardReward.Context" production="">
 <ruleSet name="Credit Card Usage Reward" effectiveBegin="" effectiveEnd="">
 <rule name="" disabled="false">
-<when condition="CCRewardReq.TransType=&quot;PAYMENT&quot;">
+<when condition="Request.TransType=&quot;PAYMENT&quot;">
 <trace value="&quot;PAYMENT - OK&quot;"></trace>
 </when>
 <otherwise>
@@ -18,7 +18,7 @@ XData RuleDefinition [ XMLNamespace = "http://www.intersystems.com/rule" ]
 </otherwise>
 </rule>
 <rule name="Number of Transactions" disabled="false">
-<when condition="CCRewardReq.TransactionsLastPeriod&gt;=150">
+<when condition="CCRewardResp.TransactionsLastPeriod&gt;=150">
 <trace value="&quot;Transactions Greater than 150&quot;"></trace>
 </when>
 <otherwise>
@@ -27,7 +27,7 @@ XData RuleDefinition [ XMLNamespace = "http://www.intersystems.com/rule" ]
 </otherwise>
 </rule>
 <rule name="Amount of Transactions" disabled="false">
-<when condition="CCRewardReq.TransactionAmtLastPeriod&gt;=5000">
+<when condition="CCRewardResp.TransactionAmtLastPeriod&gt;=5000">
 <trace value="&quot;Transaction Amount Greater than Min&quot;"></trace>
 </when>
 <otherwise>

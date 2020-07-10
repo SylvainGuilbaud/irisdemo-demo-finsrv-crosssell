@@ -1,14 +1,14 @@
-Class BankingSrv.Msg.TranCountReq Extends Ens.Request [ Language = objectscript ]
+Class Datalake.BO.Transaction.TransCountReq Extends Ens.Request [ Language = objectscript ]
 {
-
 Property FromAccountNumber As %String;
 
 Property TranCount As %Integer;
 
+
 Storage Default
 {
-<Data name="TranCountReqDefaultData">
-<Subscript>"TranCountReq"</Subscript>
+<Data name="TransCountReqDefaultData">
+<Subscript>"TransCountReq"</Subscript>
 <Value name="1">
 <Value>FromAccountNumber</Value>
 </Value>
@@ -16,7 +16,7 @@ Storage Default
 <Value>TranCount</Value>
 </Value>
 </Data>
-<DefaultData>TranCountReqDefaultData</DefaultData>
+<DefaultData>TransCountReqDefaultData</DefaultData>
 <Type>%Storage.Persistent</Type>
 }
 

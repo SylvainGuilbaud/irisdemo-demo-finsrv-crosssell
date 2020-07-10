@@ -1,6 +1,5 @@
-Class BankingSrv.Msg.TranCountEmailReq Extends Ens.Request [ Language = objectscript ]
+Class BankingSrv.BO.Email.TranCountEmailReq Extends Ens.Request [ Language = objectscript ]
 {
-
 Property TranCount As %Integer;
 
 Property Recipient As %String;
@@ -8,7 +7,6 @@ Property Recipient As %String;
 Property Subject As %String;
 
 Property EmailBody As %String(MAXLEN = 1024);
-
 Storage Default
 {
 <Data name="TranCountEmailReqDefaultData">

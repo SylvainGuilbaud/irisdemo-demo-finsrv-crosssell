@@ -1,14 +1,12 @@
-Class BankingSrv.Msg.TranCountResp Extends Ens.Response [ Language = objectscript ]
+Class Datalake.BO.Transaction.TransCountResp Extends Ens.Response [ Language = objectscript ]
 {
-
 Property FromAccountNumber As %String;
 
 Property TranCount As %Integer;
-
 Storage Default
 {
-<Data name="TranCountRespDefaultData">
-<Subscript>"TranCountResp"</Subscript>
+<Data name="TransCountRespDefaultData">
+<Subscript>"TransCountResp"</Subscript>
 <Value name="1">
 <Value>FromAccountNumber</Value>
 </Value>
@@ -16,7 +14,7 @@ Storage Default
 <Value>TranCount</Value>
 </Value>
 </Data>
-<DefaultData>TranCountRespDefaultData</DefaultData>
+<DefaultData>TransCountRespDefaultData</DefaultData>
 <Type>%Storage.Persistent</Type>
 }
 

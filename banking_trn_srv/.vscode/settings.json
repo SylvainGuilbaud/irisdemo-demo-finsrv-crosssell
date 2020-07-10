@@ -10,7 +10,7 @@
         "password": "sys",
         "ns": "APPINT",
         "https": false
-    }
+    },
     
     "objectscript.export.folder": "mobilebanking-bankingtrnsrv-atelier-project", 
 

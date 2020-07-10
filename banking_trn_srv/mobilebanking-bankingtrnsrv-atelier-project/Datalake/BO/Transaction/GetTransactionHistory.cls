@@ -7,55 +7,55 @@ Property Adapter As EnsLib.SQL.OutboundAdapter;
 
 Parameter INVOCATION = "Queue";
 
-Method GetTransactionHistory(pRequest As BankingSrv.Msg.RewardReq, Output pResponse As BankingSrv.Msg.RewardResp) As %Status
+Method GetTransactionHistory(pRequest As Datalake.BO.Transaction.RewardReq, Output pResponse As Datalake.BO.Transaction.RewardResp) As %Status
 {
+	set tSC = $$$OK
+	
+	Try{
+		$$$TRACE("retreving data using account ID...")
+		Set tSQL = "SELECT count(T.ID) As TransCount, Sum(BC_TRANS_AMOUNT) AS TransAmount"_
+			" FROM IRISDemo.BC_TRANSACTIONS T, IRISDemo.BC_CUST_ACCOUNT A"_
+			" WHERE T.BC_TRANS_SRC_ACC = A.ID"_
+			" AND ISNULL(BC_TRANS_WAS_BLOCKED,0) <> 1"_
+			" AND BC_ACC_NUMBER = '"_pRequest.FromAccountNumber_"'"
+		
+		//Set pParams=1
+		
+		//Set pParams(1)=pRequest.FromAccountNumber
+	
+		#dim pRS As EnsLib.SQL.GatewayResultSet
+		
+		$$$TRACE("Executing Query...")
+		$$$TRACE("tSQL="_tSQL)
+		//$$$TRACE("pParams(1)="_pParams(1))
+		
+		//Set tSC =  ..Adapter.ExecuteQuery(.pRS, tSQL, pParams)
+		Set tSC =  ..Adapter.ExecuteQuery(.pRS, tSQL)
+		Quit:$$$ISERR(tSC)
+	
+		if pRS.Next() {
+			$$$TRACE("tSC OK")
+			$$$TRACE("TransAmount = "_pRS.Get("TransAmount"))
+			$$$TRACE("TransCount = "_pRS.Get("TransCount"))
+		}	
+		
+		set pResponse = ##class(Datalake.BO.Transaction.RewardResp).%New()
+		
+		set pResponse.TransactionAmtLastPeriod = +pRS.Get("TransAmount")
+		set pResponse.TransactionsLastPeriod = +pRS.Get("TransCount")
+	
+	}
+	Catch(oException){
+		set tSC = oException.AsStatus()
+	}
 
-	set iTranCount = 0
-	set dTranAmt = 0
-
-	$$$TRACE("retreving data using account ID...")
-	Set tSQL = "SELECT count(T.ID) As TransCount, Sum(BC_TRANS_AMOUNT) AS TransAmount"_
-		" FROM IRISDemo.BC_TRANSACTIONS T, IRISDemo.BC_CUST_ACCOUNT A"_
-		" WHERE T.BC_TRANS_SRC_ACC = A.ID"_
-		" AND ISNULL(BC_TRANS_WAS_BLOCKED,0) <> 1"_
-		" AND BC_ACC_NUMBER = '"_pRequest.FromAccountNumber_"'"
-	
-	//Set pParams=1
-	
-	//Set pParams(1)=pRequest.FromAccountNumber
-
-	#dim pRS As EnsLib.SQL.GatewayResultSet
-	
-	$$$TRACE("Executing Query...")
-	$$$TRACE("tSQL="_tSQL)
-	//$$$TRACE("pParams(1)="_pParams(1))
-	
-	//Set tSC =  ..Adapter.ExecuteQuery(.pRS, tSQL, pParams)
-	Set tSC =  ..Adapter.ExecuteQuery(.pRS, tSQL)
-
-	if pRS.Next() {
-		$$$TRACE("tSC OK")
-		$$$TRACE("TransAmount = "_pRS.Get("TransAmount"))
-		$$$TRACE("TransCount = "_pRS.Get("TransCount"))
-	}	
-	
-	set pResponse = ##class(BankingSrv.Msg.RewardResp).%New()
-	set pResponse.Amount = pRequest.Amount
-	set pResponse.FromAccountNumber = pRequest.FromAccountNumber
-	set pResponse.ToAccountNumber = pRequest.ToAccountNumber
-	set pResponse.TransDateTime = pRequest.TransDateTime
-	set pResponse.TransType = pRequest.TransType
-	set pResponse.TransactionAmtLastPeriod = pRS.Get("TransAmount")
-	set:(pResponse.TransactionAmtLastPeriod="") pResponse.TransactionAmtLastPeriod = 0 
-	set pResponse.TransactionsLastPeriod = pRS.Get("TransCount")
-	set:(pResponse.TransactionsLastPeriod="") pResponse.TransactionsLastPeriod = 0
-	
-	return $$$OK
+	return tSC
 }
 
-Method GetTranCount(pRequest As BankingSrv.Msg.TranCountReq, Output pResponse As Ens.Response)
+Method GetTranCount(pRequest As Datalake.BO.Transaction.TransCountReq, Output pResponse As Datalake.BO.Transaction.RewardResp)
 {
 
+	w 1/0
 	set iTranCount = 0
 	set dTranAmt = 0
 
@@ -84,7 +84,7 @@ Method GetTranCount(pRequest As BankingSrv.Msg.TranCountReq, Output pResponse As
 		$$$TRACE("TransCount = "_pRS.Get("TransCount"))
 	}	
 	
-	set pResponse = ##class(BankingSrv.Msg.TranCountResp).%New()
+	set pResponse = ##class(Datalake.BO.Transaction.RewardResp).%New()
 	set pResponse.FromAccountNumber = pRequest.FromAccountNumber
 	set pResponse.TranCount = pRS.Get("TransCount")
 	set:(pResponse.TranCount="") pResponse.TranCount = 0
@@ -95,10 +95,10 @@ Method GetTranCount(pRequest As BankingSrv.Msg.TranCountReq, Output pResponse As
 XData MessageMap
 {
 <MapItems>
-	<MapItem MessageType="BankingSrv.Msg.RewardReq"> 
+	<MapItem MessageType="Datalake.BO.Transaction.RewardReq"> 
 		<Method>GetTransactionHistory</Method>
 	</MapItem>
-	<MapItem MessageType="BankingSrv.Msg.TranCountReq"> 
+	<MapItem MessageType="Datalake.BO.Transaction.TransCountReq"> 
 		<Method>GetTranCount</Method>
 	</MapItem>
 </MapItems>

@@ -1,16 +1,14 @@
-Class BankingSrv.BO.SendEmail Extends Ens.BusinessOperation [ Language = objectscript ]
+Class BankingSrv.BO.Email.Operation Extends Ens.BusinessOperation [ Language = objectscript ]
 {
-
 Parameter ADAPTER = "EnsLib.EMail.OutboundAdapter";
 
 Property Adapter As EnsLib.EMail.OutboundAdapter;
 
 Parameter INVOCATION = "Queue";
 
-Method SendMsg(pInput As BankingSrv.Msg.EmailRequest, Output pOutput As Ens.Response) As %Status
+Method SendMsg(pInput As BankingSrv.BO.Email.EmailRequest, Output pOutput As Ens.Response) As %Status
 {
 	$$$TRACE("SendMsg to "_pInput.Recipient)
-	set pOutput = ##class(Ens.Response).%New()
 	
 	If pInput.Recipient = "" {
 		$$$TRACE("No Recipient")
@@ -28,7 +26,7 @@ Method SendMsg(pInput As BankingSrv.Msg.EmailRequest, Output pOutput As Ens.Resp
 	quit oStatus
 }
 
-Method SendTranCountMsg(pInput As BankingSrv.Msg.TranCountEmailReq, Output pOutput As Ens.Response) As %Status
+Method SendTranCountMsg(pInput As BankingSrv.BO.Email.TranCountEmailReq, Output pOutput As Ens.Response) As %Status
 {
 	$$$TRACE("SendMsg to "_pInput.Recipient)
 	set pOutput = ##class(Ens.Response).%New()
@@ -54,15 +52,14 @@ Method SendTranCountMsg(pInput As BankingSrv.Msg.TranCountEmailReq, Output pOutp
 XData MessageMap
 {
 <MapItems>
-	<MapItem MessageType="BankingSrv.Msg.EmailRequest"> 
+	<MapItem MessageType="BankingSrv.BO.Email.EmailRequest"> 
 		<Method>SendMsg</Method>
 	</MapItem>
-	<MapItem MessageType="BankingSrv.Msg.TranCountEmailReq"> 
+	<MapItem MessageType="BankingSrv.BO.Email.TranCountEmailReq"> 
 		<Method>SendTranCountMsg</Method>
 	</MapItem>
 	
 	
 </MapItems>
 }
-
 }

@@ -62,12 +62,11 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <annotation><![CDATA[No! So, let's decline this transaction!]]></annotation>
 </assign>
 <call name='Send Email - Alert' target='Send Email' async='1' xpos='605' ypos='1350' >
-<request type='BankingSrv.Msg.EmailRequest' >
-<assign property="callrequest.Recipient" value="&quot;youremail@gmail.com&quot;" action="set" />
+<request type='BankingSrv.BO.Email.EmailRequest' >
+<assign property="callrequest.Recipient" value="$Get(^EmailRecipient)" action="set" />
 <assign property="callrequest.Subject" value="&quot;Demo Bank - Suspicious Activity&quot;" action="set" />
 <assign property="callrequest.EmailBody" value="&quot;Dear Customer,&quot;_$CHAR(10)_$CHAR(10)_&quot;We have identified some suspicious activity on your Credit Card.&quot;_$CHAR(10)_$CHAR(10)_&quot;Whilst we have declined the transaction, your card is still operational. You should check your transactions...&quot;" action="set" />
 </request>
-<response type='Ens.Response' />
 </call>
 </false>
 </if>
@@ -90,14 +89,9 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </response>
 </call>
 <call name='Call Rewards Process' target='Credit Card Reward' async='1' xpos='470' ypos='2000' >
-<request type='BankingSrv.Msg.RewardReq' >
-<assign property="callrequest.TransDateTime" value="request.TransDateTime" action="set" />
-<assign property="callrequest.TransType" value="request.TransType" action="set" />
-<assign property="callrequest.Amount" value="request.Amount" action="set" />
-<assign property="callrequest.FromAccountNumber" value="request.FromAccountNumber" action="set" />
-<assign property="callrequest.ToAccountNumber" value="request.ToAccountNumber" action="set" />
+<request type='BankingSrv.BS.Transaction.NewTransactionReq' >
+<assign property="callrequest" value="request" action="set" />
 </request>
-<response type='BankingSrv.Msg.RewardResp' />
 </call>
 <call name='Populate the data lake' target='Datalake Transaction Operations' async='1' xpos='470' ypos='2100' >
 <annotation><![CDATA[Asynchronous]]></annotation>
@@ -115,7 +109,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign property="callrequest.ToAccountNumber" value="request.ToAccountNumber" action="set" />
 <assign property="callrequest.TransactionAllowed" value="context.TransactionAllowed" action="set" />
 </request>
-<response type='Ens.Response' />
 </call>
 </true>
 <false>
@@ -136,7 +129,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <assign property="callrequest.ToAccountNumber" value="request.ToAccountNumber" action="set" />
 <assign property="callrequest.TransactionAllowed" value="context.TransactionAllowed" action="set" />
 </request>
-<response type='Ens.Response' />
 </call>
 </false>
 </if>

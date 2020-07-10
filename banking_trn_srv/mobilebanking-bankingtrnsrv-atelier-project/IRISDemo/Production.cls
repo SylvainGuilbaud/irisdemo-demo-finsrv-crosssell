@@ -67,7 +67,7 @@ Merchant_Feature, IRISDemo.BC_MERCH_ACCOUNT, BC_ACC_NUMBER, BC_MERCH_CODE]]></Se
   </Item>
   <Item Name="Credit Card Reward" Category="Reward" ClassName="BankingSrv.BP.Transaction.CreditCardReward" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
-  <Item Name="Send Email" Category="Reward" ClassName="BankingSrv.BO.SendEmail" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="Send Email" Category="Reward" ClassName="BankingSrv.BO.Email.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Adapter" Name="Credentials">GMAIL</Setting>
     <Setting Target="Adapter" Name="From">youremail@gmail.com</Setting>
     <Setting Target="Adapter" Name="SMTPPort">465</Setting>

@@ -1,6 +1,5 @@
-Class BankingSrv.Msg.EmailRequest Extends Ens.Request [ Language = objectscript ]
+Class BankingSrv.BO.Email.EmailRequest Extends Ens.Request [ Language = objectscript ]
 {
-
 Property Recipient As %String;
 
 Property Subject As %String;
@@ -10,7 +9,6 @@ Property EmailBody As %String(MAXLEN = 1024);
 Property HoldMsg As %String;
 
 Property Source As %String;
-
 Storage Default
 {
 <Data name="EmailRequestDefaultData">
