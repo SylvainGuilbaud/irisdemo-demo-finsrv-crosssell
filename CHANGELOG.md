@@ -1,3 +1,6 @@
+## 1.0.2 (July 11, 2020)
+  - Fixing auto build
+
 ## 1.0.1 (July 11, 2020)
   - Initial version.
 
