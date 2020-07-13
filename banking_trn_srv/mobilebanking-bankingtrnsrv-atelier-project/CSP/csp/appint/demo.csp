@@ -330,6 +330,8 @@
 			
 			<td class="leftFormField">GMail e-Mail's Password:</td>
 			
+			<td class="leftFormField" width="5%">&nbsp;</td>
+			
 			<td width="5%">&nbsp</td>
 			
 			<td class="leftFormField">Customer's phone:</td>
@@ -338,13 +340,18 @@
 			
 			<td class="leftFormField">AWS Secret Access Key:</td>
 			
-			<td width="20%">&nbsp;</td>
+			<td class="leftFormField" width="5%">&nbsp;</td>
 			
 		</tr>
+		<tr>
 			<td>&nbsp;</td>
 			<td class="leftFormField"><input type="text" name="EmailSenderEmail" size="20" value="#(%request.Get("EmailSenderEmail"))#"></td>
 			
-			<td class="leftFormField"><input type="password" name="EmailSenderPassword" size="15" value="#(%request.Get("EmailSenderPassword"))#">&nbsp;<button name="btSaveEmail">Save</button></td>
+			<td class="leftFormField"><input type="password" name="EmailSenderPassword" size="15" value="#(%request.Get("EmailSenderPassword"))#"></td>
+			
+			<td class="leftFormField">
+				<button name="btSaveEmail">Save</button>
+			</td>
 			
 			<td width="5%">&nbsp</td>
 			
@@ -352,24 +359,30 @@
 			
 			<td class="leftFormField"><input type="text" name="awsAccessKey" size="20" value="#(%request.Get("awsAccessKey"))#"></td>
 			
-			<td class="leftFormField"><input type="password" name="awsSecretAccessKey" size="15" value="#(%request.Get("awsSecretAccessKey"))#">&nbsp;<button name="btSavePhone">Save</button></td>
+			<td class="leftFormField"><input type="password" name="awsSecretAccessKey" size="15" value="#(%request.Get("awsSecretAccessKey"))#"></td>
 			
-			<td>&nbsp;</td>
-		<tr>
+			<td class="leftFormField">
+				<button name="btSavePhone">Save</button>
+			</td>
+			
+			<td width="20%">&nbsp;</td>
+			
+			
 		</tr>
 		</table>
 		</form>
 		
 		<csp:if condition='%request.IsDefined("Message")'>
-			<center id="messages">
+			<center id="messages" style="margin-top: 10px">
 			<div style="background-color:indigo; color:white; width:50%;text-align:left;">
 				<table border=0>
 				<tr>
 					<td width="80%">
 						<pre style="float:left;">#(%request.Get("Message"))#</pre>
 					</td>
-					<td align="right" style="vertical-align:bottom"><button onClick="document.getElementById('messages').hidden=true;">Close</button></td>
-					
+					<td align="right" style="vertical-align:top">
+						<button style="background-color:white" onClick="document.getElementById('messages').hidden=true;">X</button>
+					</td>
 				</tr>
 				</table>
 			</div>
