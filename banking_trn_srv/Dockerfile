@@ -1,4 +1,4 @@
-FROM intersystemsdc/irisdemo-demo-finsrv-crosssell:datalake-version-1.0.2
+FROM intersystemsdc/irisdemo-demo-finsrv-crosssell:datalake-version-1.0.3
 
 FROM intersystemsdc/irisdemo-base-irisint-community:version-1.4
 
