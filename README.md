@@ -17,7 +17,7 @@ This sample application shows one of the ways IRIS can be used to create a servi
 
 The following image shows the architecture of the solution:
 
-[![Fraud Prevention Example](https://raw.githubusercontent.com/intersystems-community/irisdemo-demo-fraudprevention/master/README.png?raw=true)](https://youtu.be/hsQPiKXJlX8)
+[![Fraud Prevention Example](https://raw.githubusercontent.com/intersystems-community/irisdemo-demo-finsrv-crosssell/master/README.png?raw=true)](https://youtu.be/hsQPiKXJlX8)
 
 You can see a video of the original fraud prevention demo that this was based on here [YouTube](https://youtu.be/hsQPiKXJlX8).
 
