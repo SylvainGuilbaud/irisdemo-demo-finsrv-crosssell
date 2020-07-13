@@ -3,13 +3,15 @@
 This project takes the iris fraud prevention demo and extends it to add:
 - Geo location data added to transactions for Power BI Report 
 - Adds Email alert for suspicious activity when fraudulent transaction is detected.
-- Send email for a reward when the customer performs 150 transactions  with total amount of $5,000
+- Sends both text message and email for a reward when the customer performs 150 transactions  with total amount of $5,000 or more.
 
 # Intelligent Interoperability Example with Financial Data
 
 This sample application shows one of the ways IRIS can be used to create a service that:
 - Uses Machine Learning to detect suspicious financial transactions. We create the model using Spark/Scala/Zeppelin and export it to PMML to use it inside IRIS
 - Calls a CRM to verify if customers are traveling to a place where he/she would not normally do transactions
+- Alerts customers if suspicious financial transactions are flagged on their account using Email.
+- Alerts select customers of credit card reward eligibilty using text messages.
 - Uses business processes and business rules to verify if the transaction should be processed or not
 - Calls the back end system to process the transaction
 - Store aggregated data about the transactions on a normalized data lake. The data can be used to retrain the ML model
@@ -21,7 +23,7 @@ The following image shows the architecture of the solution:
 
 You can see a video of the original fraud prevention demo that this was based on here [YouTube](https://youtu.be/hsQPiKXJlX8).
 
-## Normalized Data Lake?
+## Hot, Normalized Data Lake?
 To expose this new service, IRIS still relies on other systems such as the core banking system and the CRM. To interoperate with these systems, IRIS uses business process orchestration, business rules and look up tables (for coding system normalization). 
 
 When the service is operating, clean, normalized data starts to flow through IRIS. Instead of throwing this data away, IRIS can easily store it on a normalized data lake. This data can be used to monitor the business in real time, monitor the ML model performance over time and also to train better ML models.
@@ -55,11 +57,31 @@ Use the username **SuperUser** and the password **sys**. This is just a demo app
 ## Required Changes to make Email sending work...
 This is designed to send alerts and rewards using a GMAIL account.
 
+After all the containers have started, open the application landing page on [http://localhost:9092/csp/appint/demo.csp](http://localhost:9092/csp/appint/demo.csp).
+
+Enter a GMAIL account of your choosing, the accounts associated password and press save. This information is only stored while the demo is running. After stopping the demo this information will be forgotten.
+
+##### **Note:** in order for Gmail to be used in this demo you need to [Allow Less Secure Apps](https://support.google.com/accounts/answer/6010255?hl=en) 
+
+## Required Changes to make SMS sending work...
+
+This is designed to send SMS alerts to customers using AWS Simple Notification Service
+
+After all the containers have started, open the application landing page on [http://localhost:9092/csp/appint/demo.csp](http://localhost:9092/csp/appint/demo.csp).
+
+Enter a phone number of your choosing, a valid AWS Access Key, the associated Secret Access Key, press save. This information is only stored while the demo is running. After stopping the demo this information will be forgotten.
+
+**Note: in order to get this wokring you will need to have a working AWS account. The AWS Access Key and Secret access key must be for a user account with the SNSFULLACCESS permissions.**
+
+**Note: to get this working make sure to include the correct country code of the phone number you would like to send messages to. The phone number in the image above starts with a 1 because it is a U.S. number.**
+
+## Optional: exploring what is being configured for GMAIL and Text messaging when you click save on the demo landing page.
+
 Launch Production:
 [http://localhost:9092/csp/appint/EnsPortal.ProductionConfig.zen?$NAMESPACE=APPINT](http://localhost:9092/csp/appint/EnsPortal.ProductionConfig.zen?$NAMESPACE=APPINT)
 
-Note: that to get Gmail to be able to be used in this demo you need to [Allow Less Secure Apps](https://support.google.com/accounts/answer/6010255?hl=en) 
- 
+
+
 * Select the "Send Email" Business Operation
     1. Click on the magnifying glass next to Credentials -> Edit the GMAIL Credential
         1. User Name = the Gmail username
@@ -68,7 +90,6 @@ Note: that to get Gmail to be able to be used in this demo you need to [Allow Le
     1. In Additional Settings:
         1. Change **From** to be the full gmail address of the sender
         1. Click "**Apply**"
-
 * Select the "Credit Card Reward" Business Process
     1. Click on the magnifying glass next to Class Name -> Opens the BPL editor
         1. scroll down to "Send Email" Activity and select it
@@ -78,7 +99,6 @@ Note: that to get Gmail to be able to be used in this demo you need to [Allow Le
         1. Click "**OK**"
         1. Click "**Compile**" on the Business Process
         1. Close this Tab
-
 * Select the "Transaction Process" Business Process
     1. On the right Click on the magnifying glass next to Class Name -> Opens the BPL editor
         1. scroll down to "Send Email - Alert" Activity and select it
@@ -88,6 +108,15 @@ Note: that to get Gmail to be able to be used in this demo you need to [Allow Le
         1. Click "**OK**"
         1. Click "**Compile**" on the Business Process
         1. Close this Tab
+* For SMS Messages: Select the "Credit Card Reward" Business Process
+    1. On the right Click on the magnifying glass next to Class Name -> Opens the BPL editor
+       1. scroll down to "Send SMS" Activity and select it
+       1. on the right Click on "Request Builder"
+       1. select the first action (callrequest.PhoneNumber)
+       1. Change the phone number from $Get(^SMSPhoneNumber) to a different phone number of your choosing.
+       1. Click "**OK**"
+       1. Click "**Compile**" on the Business Process
+       1. Close this Tab
 
 
 ## Changes to make Geo Location work...
@@ -102,6 +131,7 @@ Included are the Singapore (SG.txt), Malaysia (MY.txt) and Thailand (TH.txt) reg
 - Configure an ODBC System DSN pointing to the SuperPort on the Datalake IRIS instance
 I have found the use of IP address is more stable. 
   
+
 ![Image of ODBC Screen](https://github.com/intersystems-community/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/ODBC.png)
 
 - Then open the PowerBI Template from this repository in PowerBI Desktop
