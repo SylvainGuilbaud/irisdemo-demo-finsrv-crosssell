@@ -75,56 +75,7 @@ Enter a phone number of your choosing, a valid AWS Access Key, the associated Se
 
 **Note: to get this working make sure to include the correct country code of the phone number you would like to send messages to. The phone number in the image above starts with a 1 because it is a U.S. number.**
 
-## Optional: exploring what is being configured for GMAIL and Text messaging when you click save on the demo landing page.
-
-Launch Production:
-[http://localhost:9092/csp/appint/EnsPortal.ProductionConfig.zen?$NAMESPACE=APPINT](http://localhost:9092/csp/appint/EnsPortal.ProductionConfig.zen?$NAMESPACE=APPINT)
-
-
-
-* Select the "Send Email" Business Operation
-    1. Click on the magnifying glass next to Credentials -> Edit the GMAIL Credential
-        1. User Name = the Gmail username
-        1. Password = Gmail user password
-        1. Save (close this tab)
-    1. In Additional Settings:
-        1. Change **From** to be the full gmail address of the sender
-        1. Click "**Apply**"
-* Select the "Credit Card Reward" Business Process
-    1. Click on the magnifying glass next to Class Name -> Opens the BPL editor
-        1. scroll down to "Send Email" Activity and select it
-        1. on the right Click on "Request Builder"
-        1. select the first action (setting target.callrequest.Recipient)
-        1. Change email to the demo email address (the recipient)
-        1. Click "**OK**"
-        1. Click "**Compile**" on the Business Process
-        1. Close this Tab
-* Select the "Transaction Process" Business Process
-    1. On the right Click on the magnifying glass next to Class Name -> Opens the BPL editor
-        1. scroll down to "Send Email - Alert" Activity and select it
-        1. on the right Click on "Request Builder"
-        1. select the first action (setting target.callrequest.Recipient)
-        1. Change email to the demo email address (the recipient)
-        1. Click "**OK**"
-        1. Click "**Compile**" on the Business Process
-        1. Close this Tab
-* For SMS Messages: Select the "Credit Card Reward" Business Process
-    1. On the right Click on the magnifying glass next to Class Name -> Opens the BPL editor
-       1. scroll down to "Send SMS" Activity and select it
-       1. on the right Click on "Request Builder"
-       1. select the first action (callrequest.PhoneNumber)
-       1. Change the phone number from $Get(^SMSPhoneNumber) to a different phone number of your choosing.
-       1. Click "**OK**"
-       1. Click "**Compile**" on the Business Process
-       1. Close this Tab
-
-
-## Changes to make Geo Location work...
-Adds geolocation data for each transaction. Provides the ability to quick ingest geo location data from (http://download.geonames.org/export/zip/) - includes AU.txt. Plus a Power BI dashboard showing fraudulent transactions broken down by location and merchant type.
-
-Included are the Singapore (SG.txt), Malaysia (MY.txt) and Thailand (TH.txt) region files. I have added the header to these files for scripting.
-
-# Power BI Setup
+## Power BI Setup
 
 - Install the latest InterSytems IRIS ODBC driver from https://wrc.intersystems.com/wrc/coDistGen.csp
 
@@ -141,7 +92,7 @@ I have found the use of IP address is more stable.
 ![Image of Power BI Screen](https://github.com/intersystems-community/irisdemo-demo-finsrv-crosssell/blob/master/PowerBI/PowerBI.png)
 
 
-# Why do I need to clone/fork the entire repo to run the app?
+## Why do I need to clone/fork the entire repo to run the app?
 
 You don't need all the source code to run the application. But the application relies on a folder structure that allows:
 * Zeppelin to store its configuration and log files outside of the containers
@@ -150,22 +101,22 @@ You don't need all the source code to run the application. But the application r
 
 It is just easier to clone the repository and get this folder structure "out of the box" instead of having to recreate it.
 
-# Other Resources
+## Other Resources
 
 Here are some additional resources:
 * [YouTube Video of this demo](https://youtu.be/hsQPiKXJlX8)
 * An [academic paper](https://www.researchgate.net/publication/265736405_BankSim_A_Bank_Payment_Simulation_for_Fraud_Detection_Research) writen by Edgar Alonzo Lopez-Rojas and Stephan Axelsson about using simulated data for developing fraud detection solutions. It is an interesting read since it will explain why the simulated data they have produced is valid and useful. We are using their data on this demo. It can also be found on [Kaggle](https://www.kaggle.com/ntnu-testimon/banksim1).
 * More details on how this application was built can be found [here](Building_the_Demo.md).
 
-# Other demo applications
+## Other demo applications
 
 There are other IRIS demo applications that touch different subjects such as NLP, ML, Integration with AWS services, Twitter services, performance benchmarks etc. Here are some of them:
 * [HTAP Demo](https://github.com/intersystems-community/irisdemo-demo-htap) - Hybrid Transaction-Analytical Processing benchmark. See how fast IRIS can insert and query at the same time. You will notice it is up to 20x faster than AWS Aurora!
 * [Twitter Sentiment Analysis](https://github.com/intersystems-community/irisdemo-demo-twittersentiment) - Shows how IRIS can be used to consume Tweets in realtime and use its NLP (natural language processing) and business rules capabilities to evaluate the tweet's sentiment and the metadata to make decisions on when to contact someone to offer support.
 * [HL7 Appointments and SMS (text messages) application](https://github.com/intersystems-community/irisdemo-demo-appointmentsms) -  Shows how IRIS for Health can be used to parse HL7 appointment messages to send SMS (text messages) appointment reminders to patients. It also shows real time dashboards based on appointments data stored in a normalized data lake.
 * [The Readmission Demo](https://github.com/intersystems-community/irisdemo-demo-readmission) - Patient Readmissions are said to be the "Hello World of Machine Learning" in Healthcare. On this demo, we use this problem to show how IRIS can be used to **safely build and operationalize** ML models for real time predictions and how this can be integrated into a random application. This **IRIS for Health** demo seeks to show how a full solution for this problem can be built.
-* [Fraud Prevention](https://github.com/intersystems-community/irisdemo-demo-fraudprevention) - This demo
+* [IRIS Data Ingestion and Schema Evolution](https://github.com/intersystems-community/irisdemo-demo-restm2) - Demo of InterSystems IRIS dealing with REST schema evolution and data normalization into a canonical model.
 
 # Report any Issues
 
-Please, report any issues on the [Issues section](https://github.com/intersystems-community/irisdemo-demo-htap/issues).
+Please, report any issues on the [Issues section](https://github.com/intersystems-community/irisdemo-demo-finsrv-crosssell/issues).
