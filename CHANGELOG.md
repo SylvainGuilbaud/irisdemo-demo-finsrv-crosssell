@@ -1,3 +1,6 @@
+## 1.0.4 (July 14, 2020)
+  - adding updates for automating demo account having 4990 in transaction volume
+
 ## 1.0.3 (July 13, 2020)
   - updating readme
   - improving instructions in README
