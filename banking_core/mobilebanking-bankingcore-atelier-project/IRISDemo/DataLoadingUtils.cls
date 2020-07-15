@@ -173,4 +173,85 @@ Class IRISDemo.DataLoadingUtils
 		
 		Kill ^IRISDemo.Trans
 	}
+	
+	/// This is called from IRISDemo.Installer to make sure the demo account has appropriate transaction volume to tell the story 
+	ClassMethod FixDemoAccountTransactions(pDemoAccountCode As %String) As %Status
+	{
+		
+		Set tSC = $$$OK
+		Set transactionThreshold = 5000
+		Set desiredTransactionSumAmount = 4990
+		
+		Try
+		{
+			Write !!,"Fixing Demo Account Transaction Data...",!
+			
+			Set rsAccount = ##class(%SQL.Statement).%ExecDirect(,"SELECT ID from IRISDemo.Account WHERE AccountNumber = '"_ pDemoAccountCode_"'")
+			$$$ThrowSQLExceptionIfResultError(rsAccount, "NonExistentDemoAccountException")
+			
+			While rsAccount.%Next() 
+			{
+				Set demoAccountID = rsAccount.%Get("ID")
+			}
+			
+			Set rsTransactionSum = ##class(%SQL.Statement).%ExecDirect(,"SELECT Count(*) as trans_count, SUM(Amount) as trans_sum from IRISDemo.CheckingTrans WHERE FromAccount ="_demoAccountID)
+			$$$ThrowSQLExceptionIfResultError(rsTransactionSum, "SelectDemoTransactionsSUMException")
+			
+			While rsTransactionSum.%Next() 
+			{
+				Set transSum = rsTransactionSum.%Get("trans_sum")
+				Set transCount = rsTransactionSum.%Get("trans_count")
+			}
+			
+			if ((transSum '= "") && (transSum > transactionThreshold)) {
+			
+				Set transactionDifference = transSum - desiredTransactionSumAmount
+				Set splitSubtractor = (transactionDifference / (transCount / 2))
+				
+				Set rsTransactions = ##class(%SQL.Statement).%ExecDirect(,"SELECT * from IRISDemo.CheckingTrans WHERE FromAccount ="_demoAccountID)
+				$$$ThrowSQLExceptionIfResultError(rsTransactions, "SelectDemoTransactionsException")
+				
+				While ((rsTransactions.%Next()) && (transactionDifference > 0))
+				{
+					Set transactionID = rsTransactions.%Get("ID")
+					Set transactionAmount = rsTransactions.%Get("Amount")
+					
+					If (transactionAmount > splitSubtractor)
+					{
+						#Dim transaction As IRISDemo.CheckingTrans
+						
+						Set transaction = ##class(IRISDemo.CheckingTrans).%OpenId(transactionID)
+						
+						Set transaction.Amount = transaction.Amount - splitSubtractor
+						Set transaction.FromAccountNewBalance = transaction.FromAccountNewBalance + splitSubtractor
+						Set transaction.ToAccountNewBalance = transaction.ToAccountNewBalance - splitSubtractor
+						
+						Set rsFromAccountLiquiditySync = ##class(%SQL.Statement).%ExecDirect(,"UPDATE IRISDemo.CheckingTrans Set FromAccountNewBalance= FromAccountNewBalance + "_splitSubtractor_", FromAccountOldBalance=FromAccountOldBalance + "_splitSubtractor_" WHERE FromAccount ='"_transaction.FromAccount_"' AND ID > "_transactionID)
+						$$$ThrowSQLExceptionIfResultError(rsFromAccountLiquiditySync, "FromAccountLiquiditySyncException")
+				
+						Set rsToAccountLiquiditySync = ##class(%SQL.Statement).%ExecDirect(,"UPDATE IRISDemo.CheckingTrans Set ToAccountNewBalance= ToAccountNewBalance - "_splitSubtractor_", ToAccountOldBalance=ToAccountOldBalance - "_splitSubtractor_" WHERE ToAccount ='"_transaction.ToAccount_"' AND ID > "_transactionID)
+						$$$ThrowSQLExceptionIfResultError(rsToAccountLiquiditySync, "ToAccountLiquiditySyncException")
+						
+						
+						Set tSC = transaction.%Save()
+						$$$ThrowStatusExceptionIfError(tSC, "UpdateEncounterDischargeLocationException")
+						
+						Set transactionDifference = transactionDifference - splitSubtractor
+					}
+				}
+			
+			}
+			
+			Write !,"Fixing of Demo Account Transaction Data finished OK!",!
+		}
+		Catch (oException)
+		{
+			Write !,"Exception",!
+			Set tSC = oException.AsStatus()
+		}
+		
+		Do $System.Status.DisplayError(tSC)
+				
+		Quit tSC
+	}
 }
