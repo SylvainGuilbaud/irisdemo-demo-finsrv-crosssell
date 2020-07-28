@@ -5,6 +5,8 @@ This project takes the iris fraud prevention demo and extends it to add:
 - Adds Email alert for suspicious activity when fraudulent transaction is detected.
 - Sends both text message and email for a reward when the customer performs 150 transactions  with total amount of $5,000 or more.
 
+See a [video](https://youtu.be/-1MYMfVOm5g) of this demo.
+
 # Intelligent Interoperability Example with Financial Data
 
 This sample application shows one of the ways IRIS can be used to create a service that:
