@@ -3,10 +3,13 @@
         "active": true,
         // "server": "fraudprevention",
         // "ns": "appint",
-        "server": "fraudprevention-datalake",
-            "ns": "APP"
+        // "server": "fraudprevention-datalake",
+        "server": "fraudprevention",
+            // "ns": "APP",
+            "ns":"APPINT",
             "docker-compose": {
-                "service": "datalake",
+                // "service": "datalake",
+                "service": "bankingtrnsrv",
                 "internalPort": 52773
           }
 }

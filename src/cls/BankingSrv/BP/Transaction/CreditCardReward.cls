@@ -2,6 +2,11 @@
 Class BankingSrv.BP.Transaction.CreditCardReward Extends Ens.BusinessProcessBPL
 {
 
+Storage Default
+{
+<Type>%Storage.Persistent</Type>
+}
+
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
@@ -40,18 +45,13 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 <call name='Send SMS' target='AWS SNS Operation' async='1' xpos='335' ypos='1100' >
 <request type='AWS.BO.SNS.SendSNSReq' >
 <assign property="callrequest.PhoneNumber" value="$Get(^SMSPhoneNumber)" action="set" />
-<assign property="callrequest.Message" value="&quot;Vous avez reçu une r&eacute;compense&quot;" action="set" />
+<assign property="callrequest.Message" value="&quot;Vous avez reçu une recompense&quot;" action="set" />
 </request>
 </call>
 </true>
 </if>
 </sequence>
 </process>
-}
-
-Storage Default
-{
-<Type>%Storage.Persistent</Type>
 }
 
 }
