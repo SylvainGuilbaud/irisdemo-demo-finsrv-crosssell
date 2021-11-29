@@ -16,11 +16,10 @@ services:
     # 52773 is the webserver/management portal port
     - "9094:52773"
     volumes:
-    - ./keys/iris.key:/usr/irissys/mgr/iris.key
     - type: bind
       source: ./normalized_datalake/shared/
       target: /shared
-    
+
   bankingcore:
     init: true
     image: intersystemsdc/irisdemo-demo-finsrv-crosssell:bankingcore-version-1.0.4
@@ -31,7 +30,6 @@ services:
     # 52773 is the webserver/management portal port
     - "9090:52773"
     volumes:
-    - ./keys/iris.key:/usr/irissys/mgr/iris.key
     - type: bind
       source: ./banking_core/shared/
       target: /shared
@@ -46,7 +44,6 @@ services:
     # 52773 is the webserver/management portal port
     - "9092:52773"
     volumes:
-    - ./keys/iris.key:/usr/irissys/mgr/iris.key
     - type: bind
       source: ./common_shared/
       target: /common_shared   # The production will be looking into this folder for new PMML files
@@ -54,7 +51,7 @@ services:
     - type: bind
       source: ./banking_trn_srv/shared/
       target: /shared
-    
+
   pos:
     image: intersystemsdc/irisdemo-demo-finsrv-crosssell:pos-version-1.0.4
     init: true

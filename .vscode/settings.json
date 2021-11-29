@@ -1,0 +1,12 @@
+{
+    "objectscript.conn": {
+        "active": true,
+        // "server": "fraudprevention",
+        // "ns": "appint",
+        "server": "fraudprevention-datalake",
+            "ns": "APP"
+            "docker-compose": {
+                "service": "datalake",
+                "internalPort": 52773
+          }
+}
