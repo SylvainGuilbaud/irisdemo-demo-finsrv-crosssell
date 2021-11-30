@@ -1,8 +1,6 @@
 {
     "objectscript.conn": {
         "active": true,
-        // "server": "fraudprevention",
-        // "ns": "appint",
         // "server": "fraudprevention-datalake",
         "server": "fraudprevention",
             // "ns": "APP",

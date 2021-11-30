@@ -20,7 +20,27 @@ XData UrlMap
 <Routes>
     <Map Prefix="/transaction" Forward="BankingSrv.BS.Transaction.Service"/>
     <Map Prefix="/whitelist" Forward="WhiteList.BS.Service"/>
+    <Route Url="/sns/:enable" Method="GET" Call="SNS"/>
   </Routes>
+}
+
+ClassMethod SNS(enable As %Boolean) As %Status
+{
+  set %response.ContentType="application/json"
+  set json={}
+  set json.items=[]
+  for items = "AWS SNS Operation","Send Email" {
+    do ##class(Ens.Director).EnableConfigItem(items,enable)
+    set sc = ##class(Ens.Queue).AbortQueue(items)
+    set item={}
+    set item.name=(items)
+    set item.active=(enable)
+    set:sc item.queue="successfully aborted"
+    set:'sc item.queue="error while aborting queue :"_($system.Status.GetErrorText(sc))
+    do json.items.%Push(item)
+  }
+  do json.%ToJSON()
+  return $$$OK
 }
 
 }

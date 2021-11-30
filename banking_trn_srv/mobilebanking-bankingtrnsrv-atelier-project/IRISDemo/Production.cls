@@ -69,9 +69,9 @@ Merchant_Feature, IRISDemo.BC_MERCH_ACCOUNT, BC_ACC_NUMBER, BC_MERCH_CODE]]></Se
   </Item>
   <Item Name="Send Email" Category="Reward" ClassName="BankingSrv.BO.Email.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Adapter" Name="Credentials">GMAIL</Setting>
-    <Setting Target="Adapter" Name="From">youremail@gmail.com</Setting>
+    <Setting Target="Adapter" Name="From">IRIS@free.fr</Setting>
     <Setting Target="Adapter" Name="SMTPPort">465</Setting>
-    <Setting Target="Adapter" Name="SMTPServer">smtp.gmail.com</Setting>
+    <Setting Target="Adapter" Name="SMTPServer">smtp.free.fr</Setting>
     <Setting Target="Adapter" Name="SSLConfig">GMAIL</Setting>
   </Item>
   <Item Name="Get Transaction History" Category="Reward" ClassName="Datalake.BO.Transaction.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
@@ -85,6 +85,7 @@ Merchant_Feature, IRISDemo.BC_MERCH_ACCOUNT, BC_ACC_NUMBER, BC_MERCH_CODE]]></Se
   <Item Name="AWS SNS Operation" Category="" ClassName="AWS.BO.SNS.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="FailureTimeout">-1</Setting>
     <Setting Target="Host" Name="ReplyCodeActions">E=R</Setting>
+    <Setting Target="Adapter" Name="AWSRegion">eu-west-3</Setting>
   </Item>
 </Production>
 }

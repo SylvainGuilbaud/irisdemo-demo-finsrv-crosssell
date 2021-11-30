@@ -69,7 +69,7 @@ Merchant_Feature, IRISDemo.BC_MERCH_ACCOUNT, BC_ACC_NUMBER, BC_MERCH_CODE]]></Se
   </Item>
   <Item Name="Send Email" Category="Reward" ClassName="BankingSrv.BO.Email.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Adapter" Name="Credentials">GMAIL</Setting>
-    <Setting Target="Adapter" Name="From">bigdata@free.fr</Setting>
+    <Setting Target="Adapter" Name="From">IRIS@free.fr</Setting>
     <Setting Target="Adapter" Name="SMTPPort">465</Setting>
     <Setting Target="Adapter" Name="SMTPServer">smtp.free.fr</Setting>
     <Setting Target="Adapter" Name="SSLConfig">GMAIL</Setting>
@@ -82,10 +82,10 @@ Merchant_Feature, IRISDemo.BC_MERCH_ACCOUNT, BC_ACC_NUMBER, BC_MERCH_CODE]]></Se
     <Setting Target="Adapter" Name="JGService">Java Gateway Service</Setting>
     <Setting Target="Adapter" Name="StayConnected">30</Setting>
   </Item>
-  <Item Name="AWS SNS Operation" Category="" ClassName="AWS.BO.SNS.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="AWS SNS Operation" Category="" ClassName="AWS.BO.SNS.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="FailureTimeout">-1</Setting>
     <Setting Target="Host" Name="ReplyCodeActions">E=R</Setting>
-    <Setting Target="Host" Name="ArchiveIO">1</Setting>
+    <Setting Target="Adapter" Name="AWSRegion">eu-west-3</Setting>
   </Item>
 </Production>
 }

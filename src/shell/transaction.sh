@@ -19,5 +19,3 @@ curl -i -X POST \
 -u _system:sys \
 -H 'Content-Type: application/json' \
 --data "$(generate_post_data)"
-
-# -d '{"TransType": "PAYMENT","Amount": "7.5","FromAccountNumber": "C1315400589","ToAccountNumber": "M1353266412"}' \
