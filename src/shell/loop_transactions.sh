@@ -1,5 +1,5 @@
-# deactivate AWS SNS operation
-$PWD/src/shell/shs.sh 0
+# deactivate AWS SNS and Send Email operations
+$PWD/src/shell/enable.sh 0
 # loop of transactions
 while true 
 do

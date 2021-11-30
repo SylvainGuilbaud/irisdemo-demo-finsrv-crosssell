@@ -1,4 +1,4 @@
-# New transaction
+# enable/disable AWS SNS and Send Email operations
 export enable=$1
 echo $enable
 
