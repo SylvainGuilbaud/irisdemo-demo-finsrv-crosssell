@@ -1,13 +1,18 @@
 {
+//     "objectscript.conn": {
+//         "active": true,
+//         "server": "fraudprevention-datalake",
+// -            "ns": "APP",
+// -            "docker-compose": {
+//                 "service": "datalake",
+// -                "internalPort": 52773
+//           }
     "objectscript.conn": {
-        "active": true,
-        // "server": "fraudprevention-datalake",
-        "server": "fraudprevention",
-            // "ns": "APP",
-            "ns":"APPINT",
-            "docker-compose": {
-                // "service": "datalake",
-                "service": "bankingtrnsrv",
-                "internalPort": 52773
-          }
+            "active": true,
+            "server": "fraudprevention",
+                "ns":"APPINT",
+                "docker-compose": {
+                    "service": "bankingtrnsrv",
+                    "internalPort": 52773
+              }
 }
