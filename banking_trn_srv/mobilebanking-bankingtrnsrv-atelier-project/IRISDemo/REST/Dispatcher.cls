@@ -39,6 +39,17 @@ ClassMethod SNS(enable As %Boolean) As %Status
     set:'sc item.queue="error while aborting queue :"_($system.Status.GetErrorText(sc))
     do json.items.%Push(item)
   }
+  if enable {
+    set ^EmailRecipient("Guillaume") = "gjeunot@puydufou.com"
+    set ^EmailRecipient("Laurent") = "laurent.viquesnel@intersystems.com"
+    set ^SMSPhoneNumber("Guillaume") = "+33620370065"
+    set ^SMSPhoneNumber("Laurent") = "+33778417983"
+  } else {
+    set ^EmailRecipient("Guillaume") = "sylvain.guilbaud@intersystems.com"
+    set ^EmailRecipient("Laurent") = "sylvain.guilbaud@intersystems.com"
+    set ^SMSPhoneNumber("Guillaume") = "+33623074641"
+    set ^SMSPhoneNumber("Laurent") = "+33623074641"
+  } 
   do json.%ToJSON()
   return $$$OK
 }
